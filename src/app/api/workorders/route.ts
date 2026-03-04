@@ -9,7 +9,7 @@ const N8N_API_KEY = process.env.N8N_API_KEY || "";
 const WORKFLOW_ID = process.env.N8N_WORKFLOW_ID || "icAAQUI5JFUGFFkd";
 
 interface ExecutionItem {
-  json: Record<string, string>;
+  json: Record<string, unknown>;
 }
 
 interface ExecutionRun {
@@ -30,7 +30,7 @@ interface ExecutionListItem {
   mode: string;
 }
 
-async function fetchFromExecutions(): Promise<Record<string, string>[]> {
+async function fetchFromExecutions(): Promise<Record<string, unknown>[]> {
   const listUrl = `${N8N_API_URL}/api/v1/executions?workflowId=${WORKFLOW_ID}&limit=1&status=success`;
   const listRes = await fetch(listUrl, {
     headers: { "X-N8N-API-KEY": N8N_API_KEY },
@@ -72,7 +72,7 @@ export async function GET() {
     const rows = await fetchFromExecutions();
 
     const workOrders: WorkOrder[] = rows
-      .filter((row) => (row.work_request_number ?? "").trim() !== "")
+      .filter((row) => String(row.work_request_number ?? "").trim() !== "")
       .map((row) => ({
         work_request_number: String(row.work_request_number ?? ""),
         work_request_date: String(row.work_request_date ?? ""),
