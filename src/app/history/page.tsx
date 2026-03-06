@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { WorkOrder } from "@/app/lib/types";
 import HistoryTable from "@/app/components/HistoryTable";
+import ExecutionCounter from "@/app/components/ExecutionCounter";
 
 const REFRESH_INTERVAL = 30_000;
 
@@ -84,19 +85,20 @@ export default function HistoryPage() {
   }
 
   return (
-    <div>
-      <div className="flex items-end justify-between mb-6">
+    <div className="animate-fade-in-up">
+      <div className="flex items-end justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+          <h1
+            className="text-3xl font-bold tracking-tight"
+            style={{ color: "var(--text-primary)" }}
+          >
             Work Order History
           </h1>
-          <p className="mt-1" style={{ color: "var(--text-muted)" }}>
+          <p className="mt-1.5 text-sm" style={{ color: "var(--text-muted)" }}>
             Completed and incomplete work orders
           </p>
         </div>
-        <p className="text-xs" style={{ color: "var(--text-dim)" }}>
-          Auto-refreshes every 30s
-        </p>
+        <ExecutionCounter />
       </div>
 
       <HistoryTable workOrders={completed} />
